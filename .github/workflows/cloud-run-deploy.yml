@@ -3,7 +3,7 @@ name: Build and Deploy to Google Cloud Run
 on:
   push:
     branches:
-      - main
+      - main  # Set this to the branch name from which you want to deploy
 
 jobs:
   setup-build-deploy:
@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0.2.0
@@ -22,7 +23,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-web-app .
+        gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/my-web-app
 
     - name: Deploy to Cloud Run
       run: |
